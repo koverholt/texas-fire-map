@@ -1,6 +1,6 @@
 var input = {};
 Algorithmia.client("simN3JwLsglGgKwvrhsl/4jnRzJ1")
-  .algo("koverholt/texas_fire_map/0.2.3?timeout=300")
+  .algo("koverholt/TexasFireMap/1.0.0?timeout=300")
   .pipe(input)
   .then(function(output) {
     var obj = output.result;
