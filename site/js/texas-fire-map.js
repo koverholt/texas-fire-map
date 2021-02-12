@@ -5,7 +5,6 @@ xhr.send();
 
 xhr.onload = function () {
   var obj = JSON.parse(this.response);
-  var obj = output.result;
   var fire_incidents = JSON.parse(obj["fire_incidents"]);
   var num_fire_incidents = obj["num_fire_incidents"];
   var total_fire_area = obj["total_fire_area"];
