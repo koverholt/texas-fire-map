@@ -1,10 +1,8 @@
-import Algorithmia
 import pytz
 import pandas as pd
 from datetime import datetime, timedelta
 
 TIMEZONE = "US/Central"
-
 
 def get_fire_incidents(fetch_date):
     for i in range(1, 45):
@@ -58,11 +56,29 @@ result = {
     "fetch_date": fetch_date.strftime("%B %-d, %Y")
 }
 
+def apply(request):
+    """Responds to any HTTP request.
+    Args:
+        request (flask.Request): HTTP request object.
+    Returns:
+        The response text or any set of values that can be turned into a
+        Response object using
+        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+    """
 
-def apply(input):
-    print(result)
-    return result
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
 
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
 
-if __name__ == "__main__":
-    apply(input)
+    return (result, 200, headers)
