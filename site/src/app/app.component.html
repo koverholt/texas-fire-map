@@ -2,15 +2,13 @@
 
 <div id="app">
 
-  <ng-container *ngIf="num_fire_incidents == 0; then no_fires else fires"></ng-container>
-  <ng-template #no_fires><h3>No, there are no large wildland fires as of {{ fetch_date }}</h3></ng-template>
-  <ng-template #fires>
-    <ng-container *ngIf="num_fire_incidents == 1; then single_fire else multiple_fires"></ng-container>
-    <ng-template #single_fire><h3>Yes, there is {{ num_fire_incidents }} large wildland fire</h3></ng-template>
-    <ng-template #multiple_fires><h3>Yes, there are {{ num_fire_incidents }} large wildland fires</h3></ng-template>
-  </ng-template>
+  <ng-container [ngSwitch]="true">
+    <h3 *ngSwitchCase="num_fire_incidents == 0">No, there are no large wildland fires as of {{ fetch_date }}</h3>
+    <h3 *ngSwitchCase="num_fire_incidents == 1">Yes, there is {{ num_fire_incidents }} large wildland fire</h3>
+    <h3 *ngSwitchCase="num_fire_incidents > 1">Yes, there are {{ num_fire_incidents }} large wildland fires</h3>
+  </ng-container>
 
-  <div *ngIf="total_fire_area > 0"><h3>{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3></div>
+  <h3 *ngIf="total_fire_area > 0">{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3>
 
 </div>
 
