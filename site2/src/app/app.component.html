@@ -1,0 +1,38 @@
+<h1>Is Texas On Fire?</h1>
+
+<div id="app">
+
+  <ng-container *ngIf="num_fire_incidents > 1; then true1 else block2"></ng-container>
+  <ng-template #true1><h3>Yes, there are {{ num_fire_incidents }} large wildland fires</h3></ng-template>
+  <ng-template #block2>
+    <ng-container *ngIf="num_fire_incidents == 1; then true2 else true3"></ng-container>
+    <ng-template #true2><h3>Yes, there is {{ num_fire_incidents }} large wildland fire</h3></ng-template>
+    <ng-template #true3><h3>No, there are no large wildland fires as of {{ fetch_date }}</h3></ng-template>
+  </ng-template>
+
+  <div *ngIf="total_fire_area > 0"><h3>{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3></div>
+
+</div>
+
+<div id="mapid"></div>
+
+<h3>About</h3>
+
+<div>
+  This app uses the most recent <a href="http://fsapps.nwcg.gov/afm/">large fire
+  incident data set</a> from the USDA Forest Service. The USDA large fire
+  incident data set is currently updated every Friday or as fire conditions
+  warrant.
+</div>
+
+<br />
+
+<div>
+  istexasonfire.com is maintained by <a href="https://koverholt.com/">Kristopher Overholt</a>
+</div>
+
+<br />
+
+<div>
+  View the <a href="https://github.com/koverholt/texas-fire-map">source code on GitHub</a>
+</div>
