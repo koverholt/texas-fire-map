@@ -1,15 +1,14 @@
 <h1>Is Texas On Fire?</h1>
 
-<div id="app">
+<div class="loader" *ngIf="!fetch_date"></div>
 
+<div id="app" *ngIf="fetch_date">
   <ng-container [ngSwitch]="true">
     <h3 *ngSwitchCase="num_fire_incidents == 0">No, there are no large wildland fires as of {{ fetch_date }}</h3>
     <h3 *ngSwitchCase="num_fire_incidents == 1">Yes, there is {{ num_fire_incidents }} large wildland fire</h3>
     <h3 *ngSwitchCase="num_fire_incidents > 1">Yes, there are {{ num_fire_incidents }} large wildland fires</h3>
   </ng-container>
-
   <h3 *ngIf="total_fire_area > 0">{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3>
-
 </div>
 
 <div id="mapid"></div>
