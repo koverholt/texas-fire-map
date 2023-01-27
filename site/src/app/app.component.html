@@ -1,35 +1,54 @@
-<h1>Is Texas On Fire?</h1>
+<section class="hero is-small is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Is Texas On Fire?
+    </p>
+    <p class="subtitle" *ngIf="!fetch_date">
+      &nbsp;
+    </p>
+  </div>
+</section>
 
-<div class="loader" *ngIf="!fetch_date"></div>
-
-<div id="app" *ngIf="fetch_date">
-  <ng-container [ngSwitch]="true">
-    <h3 *ngSwitchCase="num_fire_incidents == 0">No, there are no large wildland fires as of {{ fetch_date }}</h3>
-    <h3 *ngSwitchCase="num_fire_incidents == 1">Yes, there is {{ num_fire_incidents }} large wildland fire</h3>
-    <h3 *ngSwitchCase="num_fire_incidents > 1">Yes, there are {{ num_fire_incidents }} large wildland fires</h3>
-  </ng-container>
-  <h3 *ngIf="total_fire_area > 0">{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3>
+<div *ngIf="!fetch_date">
+  <progress class="progress is-medium is-link" max="100"></progress>
 </div>
 
-<div id="mapid"></div>
-
-<h3>About</h3>
-
-<div>
-  This app uses the most recent <a href="http://fsapps.nwcg.gov/afm/">large fire
-  incident data set</a> from the USDA Forest Service. The USDA large fire
-  incident data set is currently updated every Friday or as fire conditions
-  warrant.
+<div class="card" *ngIf="fetch_date">
+  <div class="card-content has-background-light">
+    <div id="app">
+      <ng-container [ngSwitch]="true">
+        <h3 class="has-text-weight-bold is-size-5" *ngSwitchCase="num_fire_incidents == 0">No, there are no large wildland fires as of {{ fetch_date }}</h3>
+        <h3 class="has-text-weight-bold is-size-5" *ngSwitchCase="num_fire_incidents == 1">Yes, there is {{ num_fire_incidents }} large wildland fire</h3>
+        <h3 class="has-text-weight-bold is-size-5" *ngSwitchCase="num_fire_incidents > 1">Yes, there are {{ num_fire_incidents }} large wildland fires</h3>
+      </ng-container>
+      <h3 class="has-text-weight-bold is-size-5" *ngIf="total_fire_area > 0">{{ formatted_fire_area }} acres are burning as of {{ fetch_date }}</h3>
+    </div>
+  </div>
 </div>
 
-<br />
-
-<div>
-  istexasonfire.com is maintained by <a href="https://koverholt.com/">Kristopher Overholt</a>
+<div class="card">
+  <div class="card-content">
+    <div id="mapid"></div>
+  </div>
 </div>
 
-<br />
-
-<div>
-  View the <a href="https://github.com/koverholt/texas-fire-map">source code on GitHub</a>
+<div class="card">
+  <div class="card-content">
+    <p class="subtitle is-size-6">
+      This app uses the most recent <a href="http://fsapps.nwcg.gov/afm/">large
+      fire incident data set</a> from the USDA Forest Service. <br />The USDA large
+      fire incident data set is currently updated every Friday or as fire
+      conditions warrant.
+    </p>
+  </div>
 </div>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      istexasonfire.com is maintained by <a href="https://koverholt.com/">Kristopher Overholt</a>
+      <br />
+      View the <a href="https://github.com/koverholt/texas-fire-map">source code on GitHub</a>
+    </p>
+  </div>
+</footer>
