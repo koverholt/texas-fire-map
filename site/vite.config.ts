@@ -4,9 +4,6 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	plugins: [sveltekit()],
 	test: {
-		include: [
-			"src/**/*.{test,spec}.{js,ts}",
-			"node_modules/leaflet/dist/*",
-		]
+		include: ['src/**/*.{test,spec}.{js,ts}']
 	}
 });
