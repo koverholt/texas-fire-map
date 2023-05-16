@@ -25,6 +25,7 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.26.0",
+		"leaflet": "^1.9.3",
 		"postcss": "^8.4.23",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.8.0",
@@ -43,7 +44,6 @@
 		"@popperjs/core": "^2.11.7",
 		"classnames": "^2.3.2",
 		"flowbite": "^1.6.5",
-		"flowbite-svelte": "^0.35.3",
-		"leaflet": "^1.9.3"
+		"flowbite-svelte": "^0.35.3"
 	}
 }
