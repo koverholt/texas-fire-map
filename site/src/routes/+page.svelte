@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { Navbar, NavBrand, DarkMode, Card } from 'flowbite-svelte';
+	import { Navbar, NavBrand, DarkMode, Card, Spinner } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
-	import { Footer, FooterBrand, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup } from 'flowbite-svelte';
 
 	// Initialize variables
-	var fireIncidents = [];
+	var fireIncidents : any = [];
 	var numFireIncidents = 0;
 	var totalFireArea = 0;
 	var formattedFireArea = 0;
@@ -72,28 +71,32 @@
 </Navbar>
 
 <main>
-	<div class="p-5">
-		{#if numFireIncidents == 0}
-			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				No, there are no large wildland fires in Texas as of {fetchDate}
-			</h5>
-		{:else if numFireIncidents == 1}
-			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				Yes, there is {numFireIncidents} large wildland fire in Texas
-			</h5>
-		{:else}
-			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				Yes, there are {numFireIncidents} large wildland fires in Texas
-			</h5>
-		{/if}
-		{#if numFireIncidents > 0}
-			<h3 class="mb-2 text-xl text-gray-900 dark:text-gray-900">
-				{formattedFireArea} acres are burning as of {fetchDate}
-			</h3>
-		{/if}
-	</div>
+	{#if !fireIncidents}
+	  <Spinner />
+	{:else}
+		<div class="p-5">
+			{#if numFireIncidents == 0}
+				<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
+					No, there are no large wildland fires in Texas as of {fetchDate}
+				</h5>
+			{:else if numFireIncidents == 1}
+				<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
+					Yes, there is {numFireIncidents} large wildland fire in Texas
+				</h5>
+			{:else}
+				<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
+					Yes, there are {numFireIncidents} large wildland fires in Texas
+				</h5>
+			{/if}
+			{#if numFireIncidents > 0}
+				<h3 class="mb-2 text-xl text-gray-900 dark:text-gray-900">
+					{formattedFireArea} acres are burning as of {fetchDate}
+				</h3>
+			{/if}
+		</div>
 
-	<div id="mapid" />
+		<div id="mapid" />
+	{/if}
 
 	<div class="p-5">
 		<h5 class="text-base text-gray-900 dark:text-gray-900">
