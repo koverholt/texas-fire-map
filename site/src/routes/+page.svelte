@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Navbar, NavBrand, DarkMode, Card, Spinner } from 'flowbite-svelte';
+	import { Navbar, NavBrand, Spinner } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 
 	// Initialize variables
-	var fireIncidents : any = [];
+	var fireIncidents: any = [];
 	var numFireIncidents = 0;
 	var totalFireArea = 0;
 	var formattedFireArea = 0;
@@ -72,7 +72,9 @@
 
 <main>
 	{#if !fireIncidents}
-	  <Spinner />
+		<div class="p-5">
+			<Spinner color="red" />
+		</div>
 	{:else}
 		<div class="p-5">
 			{#if numFireIncidents == 0}
@@ -94,9 +96,9 @@
 				</h3>
 			{/if}
 		</div>
-
-		<div id="mapid" />
 	{/if}
+
+	<div id="mapid" />
 
 	<div class="p-5">
 		<h5 class="text-base text-gray-900 dark:text-gray-900">
