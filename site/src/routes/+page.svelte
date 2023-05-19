@@ -75,15 +75,15 @@
 	<div class="p-5">
 		{#if numFireIncidents == 0}
 			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				No, there are no large wildland fires as of {fetchDate}
+				No, there are no large wildland fires in Texas as of {fetchDate}
 			</h5>
 		{:else if numFireIncidents == 1}
 			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				Yes, there is {numFireIncidents} large wildland fire
+				Yes, there is {numFireIncidents} large wildland fire in Texas
 			</h5>
 		{:else}
 			<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
-				Yes, there are {numFireIncidents} large wildland fires
+				Yes, there are {numFireIncidents} large wildland fires in Texas
 			</h5>
 		{/if}
 		{#if numFireIncidents > 0}
