@@ -71,12 +71,12 @@
 </Navbar>
 
 <main>
-	{#if !fireIncidents}
-		<div class="p-5">
+	{#if fireIncidents.length == 0}
+		<div class="py-5 px-28">
 			<Spinner color="red" />
 		</div>
 	{:else}
-		<div class="p-5">
+		<div class="py-5 px-28">
 			{#if numFireIncidents == 0}
 				<h5 class="mb-2 text-xl font-bold text-gray-900 dark:text-gray-900">
 					No, there are no large wildland fires in Texas as of {fetchDate}
@@ -98,9 +98,11 @@
 		</div>
 	{/if}
 
-	<div id="mapid" />
+	<div class="px-28">
+		<div id="mapid" />
+	</div>
 
-	<div class="p-5">
+	<div class="py-5 px-28">
 		<h5 class="text-base text-gray-900 dark:text-gray-900">
 			This app uses the most recent <a href="http://fsapps.nwcg.gov/afm/" class="underline"
 				>large fire incident data set</a
@@ -110,7 +112,7 @@
 		</h5>
 	</div>
 
-	<div class="p-5">
+	<div class="py-5 px-28">
 		<h5 class="text-sm text-gray-900 dark:text-gray-900">
 			istexasonfire.com is maintained by <a href="https://koverholt.com/" class="underline">Kristopher Overholt</a>
 			<br />
