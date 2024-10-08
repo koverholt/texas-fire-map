@@ -104,10 +104,15 @@
 
 	<div class="py-5 px-28">
 		<h5 class="text-base text-gray-900 dark:text-gray-900">
-			This app uses the most recent <a href="https://www.nifc.gov/nicc/incident-information/national-incident-map" class="underline"
-				>Incident Management Situation Report (IMSR) data set</a
-			>
-			from the National Interagency Coordination Center.<br />
+			This app uses the
+			<a href="https://www.nifc.gov/nicc/incident-information/national-incident-map" class="underline">
+				Incident Management Situation Report (IMSR)
+			</a>
+			data set from the
+			<a href="https://www.nifc.gov/nicc" class="underline">
+				National Interagency Coordination Center.
+			</a>
+			<br />
 		</h5>
 	</div>
 
