@@ -112,15 +112,14 @@
 			<a href="https://www.nifc.gov/nicc" class="underline">
 				National Interagency Coordination Center.
 			</a>
-			<br />
 		</h5>
 	</div>
 
-	<div class="py-5 px-28">
-		<h5 class="text-sm text-gray-900 dark:text-gray-900">
-			istexasonfire.com is maintained by <a href="https://koverholt.com/" class="underline">Kristopher Overholt</a>
+	<div class="py-1 px-28">
+		<h5 class="text-base text-gray-900 dark:text-gray-900">
+			istexasonfire.com is maintained by <a href="https://koverholt.com/" class="underline">Kristopher Overholt</a>.
 			<br /><br />
-			View the <a href="https://github.com/koverholt/texas-fire-map" class="underline">source code on GitHub</a>
+			View the <a href="https://github.com/koverholt/texas-fire-map" class="underline">source code on GitHub</a>.
 		</h5>
 	</div>
 </main>
