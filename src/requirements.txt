@@ -1,2 +1,6 @@
-pandas==1.2.1
-pytz==2020.1
+Flask
+Flask-CORS
+gunicorn
+pandas
+pytz
+requests

@@ -1,84 +1,92 @@
+import os
 import pytz
+import requests
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 TIMEZONE = "US/Central"
+# Data source URL
+url = "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/IMSR_Incident_Locations_Most_Recent_View/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 
-def get_fire_incidents(fetch_date):
-    for i in range(1, 45):
-        try:
-            file_string = (
-                "https://fsapps.nwcg.gov/afm/data/lg_fire/lg_fire_nifc_"
-                + str(fetch_date)
-                + ".csv"
-            )
-            df = pd.read_csv(file_string)
-            df = df[df["fire_number"].str.startswith("TX-")]
-            break
-        except:
-            fetch_date = fetch_date - timedelta(days=1)
+def convert_to_iso8601(datetime_str):
+    try:
+        # Parse the given datetime string and convert it to date in ISO 8601 format
+        dt = datetime.strptime(datetime_str, '%m/%d/%Y %I:%M:%S %p')
+        return dt.date().isoformat()
+    except (ValueError, TypeError):
+        return None
 
-    num_fire_incidents = len(df)
-    total_fire_area = int(sum(df["area"]))
+def get_fire_incidents():
+    try:
+        # Fetch the GeoJSON data
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        # Extract relevant fields
+        fire_incidents = [
+            {
+                "latitude": feature['geometry']['coordinates'][1],
+                "longitude": feature['geometry']['coordinates'][0],
+                "fire_name": feature['properties'].get("fire_name", ""),
+                "fire_number": feature['properties'].get("incident_id", ""),
+                "area": feature['properties'].get("size", 0),
+                "report_date": convert_to_iso8601(feature['properties'].get("IrwinFireDiscoveryDateTime", ""))
+            }
+            for feature in data['features']
+            if feature['properties'].get("incident_id", "").startswith("TX-")
+        ]
+
+        df = pd.DataFrame(fire_incidents)
+
+    except (requests.RequestException, ValueError) as e:
+        print(f"Error fetching data: {e}")
+        df = pd.DataFrame()
+
+    # If no valid data is present, handle it gracefully
+    if df.empty or "area" not in df.columns:
+        df = pd.DataFrame([{
+            "latitude": "",
+            "longitude": "",
+            "fire_name": "",
+            "fire_number": "",
+            "area": 0,
+            "report_date": "",
+        }])
+        num_fire_incidents = 0
+    else:
+        num_fire_incidents = len(df)
+
+    # Summary calculations
+    total_fire_area = int(df["area"].sum()) if "area" in df.columns else 0
     formatted_fire_area = '{:,}'.format(total_fire_area)
 
-    if df.empty:
-        df = df.append(
-            {
-                "latitude": "",
-                "longitude": "",
-                "fire_name": "",
-                "fire_number": "",
-                "area": 0,
-                "report_date": "",
-            },
-            ignore_index=True,
-        )
-
-    return df, num_fire_incidents, total_fire_area, formatted_fire_area, fetch_date
+    return df, num_fire_incidents, total_fire_area, formatted_fire_area
 
 
-fetch_date = datetime.now(pytz.timezone(TIMEZONE)).date()
+@app.route('/')
+def index():
+    # Fetch and process fire incidents
+    fire_incidents, num_fire_incidents, total_fire_area, formatted_fire_area = get_fire_incidents()
 
-(
-    fire_incidents,
-    num_fire_incidents,
-    total_fire_area,
-    formatted_fire_area,
-    fetch_date,
-) = get_fire_incidents(fetch_date)
+    # Fetch the current date
+    fetch_date = datetime.now(pytz.timezone(TIMEZONE)).date()
 
-result = {
-    "fire_incidents": fire_incidents.to_json(orient="records"),
-    "num_fire_incidents": num_fire_incidents,
-    "total_fire_area": total_fire_area,
-    "formatted_fire_area": formatted_fire_area,
-    "fetch_date": fetch_date.strftime("%B %-d, %Y")
-}
-
-def apply(request):
-    """Responds to any HTTP request.
-    Args:
-        request (flask.Request): HTTP request object.
-    Returns:
-        The response text or any set of values that can be turned into a
-        Response object using
-        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
-    """
-
-    if request.method == 'OPTIONS':
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Max-Age': '3600'
-        }
-        return ('', 204, headers)
-
-    headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST',
-        'Access-Control-Allow-Headers': 'Content-Type'
+    # Prepare result
+    result = {
+        "fire_incidents": fire_incidents.to_json(orient="records"),
+        "num_fire_incidents": num_fire_incidents,
+        "total_fire_area": total_fire_area,
+        "formatted_fire_area": formatted_fire_area,
+        "fetch_date": fetch_date.strftime("%B %-d, %Y")
     }
 
-    return (result, 200, headers)
+    return jsonify(result)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))

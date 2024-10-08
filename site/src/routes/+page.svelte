@@ -14,8 +14,8 @@
 		const L = await import('leaflet');
 
 		// API request
-		const response = await fetch('https://texas-fire-map-67ugd5bjtq-uc.a.run.app', {
-			method: 'POST',
+		const response = await fetch('https://texas-fire-map-453351226639.us-central1.run.app', {
+			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 		});
 
@@ -104,11 +104,10 @@
 
 	<div class="py-5 px-28">
 		<h5 class="text-base text-gray-900 dark:text-gray-900">
-			This app uses the most recent <a href="http://fsapps.nwcg.gov/afm/" class="underline"
-				>large fire incident data set</a
+			This app uses the most recent <a href="https://www.nifc.gov/nicc/incident-information/national-incident-map" class="underline"
+				>Incident Management Situation Report (IMSR) data set</a
 			>
-			from the USDA Forest Service.<br />
-			The USDA large fire incident data set is currently updated every Friday or as fire conditions warrant.
+			from the National Interagency Coordination Center.<br />
 		</h5>
 	</div>
 
