@@ -21,7 +21,7 @@
 
 		// Large fire data
 		const res = await response.json();
-		fireIncidents = res['fire_incidents'];
+		fireIncidents = JSON.parse(res['fire_incidents']);
 		numFireIncidents = res['num_fire_incidents'];
 		totalFireArea = res['total_fire_area'];
 		formattedFireArea = res['formatted_fire_area'];
@@ -37,7 +37,7 @@
 		}).addTo(map);
 
 		var flameIcon = L.icon({
-			iconUrl: 'static/flame.png',
+			iconUrl: 'flame.png',
 			iconSize: [40, 40],
 			iconAnchor: [20, 20],
 			popupAnchor: [0, -20]
